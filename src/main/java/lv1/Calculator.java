@@ -13,6 +13,9 @@ public class Calculator {
 
             System.out.print("두 번째 숫자를 입력하세요: ");
             int second = sc.nextInt();
+
+            System.out.print("원하는 사칙연산 기호를 입력하세요: ");
+            char operator = sc.next().charAt(0);
         }
     }
 }
