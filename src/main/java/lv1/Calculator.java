@@ -16,6 +16,32 @@ public class Calculator {
 
             System.out.print("원하는 사칙연산 기호를 입력하세요: ");
             char operator = sc.next().charAt(0);
+
+            System.out.print("\n" + first + " " + operator + " " + second + " = ");
+
+            switch (operator) {
+                case '+':
+                    System.out.print(first + second);
+                    break;
+                case '-':
+                    System.out.print(first - second);
+                    break;
+                case '*':
+                    System.out.print(first * second);
+                    break;
+                case '/':
+                    if (second == 0) {
+                        System.out.println("0으로 나눌 수 없습ㄴ니다.");
+                    } else {
+                        System.out.print(first / second);
+                    }
+                    break;
+                default:
+                    System.out.println("오류가 발생했습니다.");
+            }
+
         }
+
     }
 }
+
