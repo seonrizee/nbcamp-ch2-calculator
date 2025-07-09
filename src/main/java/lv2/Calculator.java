@@ -1,0 +1,46 @@
+package lv2;
+
+import java.util.ArrayDeque;
+import java.util.Queue;
+
+public class Calculator {
+
+    /**
+     * 연산 결과를 저장하는 컬렉션 Queue
+     */
+    private final Queue<Integer> results = new ArrayDeque<>();
+
+    /**
+     * 연산 결과를 반환하는 메서드
+     *
+     * @param first    첫번쨰 입력된 숫자
+     * @param second   두번째 입력된 숫자
+     * @param operator 입력된 연산자
+     * @return 연산 결과
+     */
+    public int calculate(int first, int second, char operator) {
+        int result = 0;
+        switch (operator) {
+
+            case '+':
+                result = first + second;
+                break;
+            case '-':
+                result = first - second;
+                break;
+            case '*':
+                result = first * second;
+                break;
+            case '/':
+                if (second == 0) {
+                    throw new ArithmeticException("0으로 나눌 수 없습니다.");
+                }
+                result = first / second;
+                break;
+            default:
+                throw new IllegalArgumentException("지원하지 않는 연산자입니다.");
+        }
+        results.add(result);
+        return result;
+    }
+}
