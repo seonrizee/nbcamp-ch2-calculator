@@ -1,5 +1,6 @@
 package lv2;
 
+import java.util.Queue;
 import java.util.Scanner;
 
 public class App {
@@ -17,10 +18,10 @@ public class App {
                 Menu selectedMenu = Menu.getMenu(cmd);
                 switch (selectedMenu) {
                     case CALCULATE:
-                        calculate(sc, calculator);
+                        handleCalculation(sc, calculator);
                         break;
                     case VIEW:
-                        System.out.println("조회 기능이 시작됩니다.");
+                        showPrevResults(calculator.getResults());
                         break;
                     case EXIT:
                         System.out.println("계산기가 종료됩니다.");
@@ -28,13 +29,38 @@ public class App {
                         break;
                     default:
                         System.out.println("다시 선택해주세요.");
+                        break;
                 }
             }
         }
 
     }
 
-    private static void calculate(Scanner sc, Calculator calculator) {
+    /**
+     * 저장된 이전 계산 결과를 출력합니다.
+     *
+     * @param prevResults
+     */
+    private static void showPrevResults(Queue<Integer> prevResults) {
+        System.out.println("이전 연산 결과 조회가 시작됩니다.");
+        if (prevResults.isEmpty()) {
+            System.out.println("저장된 결과가 없습니다.");
+            return;
+        }
+
+        int idx = 1;
+        for (Integer cur : prevResults) {
+            System.out.println("[" + idx++ + "]: " + cur);
+        }
+    }
+
+    /**
+     * 계산을 처리합니다.
+     *
+     * @param sc
+     * @param calculator
+     */
+    private static void handleCalculation(Scanner sc, Calculator calculator) {
         System.out.println("계산이 시작됩니다.\n");
         int inputOrder = 1;
 

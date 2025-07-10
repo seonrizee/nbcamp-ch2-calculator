@@ -19,7 +19,7 @@ public enum Menu {
     }
 
     /**
-     * 메뉴를 출력하는 메서드
+     * 사용자가 선택할 수 있는 메뉴를 출력합니다.
      */
     public static void printMenu() {
         System.out.println();
@@ -32,7 +32,7 @@ public enum Menu {
     }
 
     /**
-     * 입력받은 코드를 메뉴로 변환해주는 메서드
+     * 사용자로부터 입력받은 번호에 해당하는 메뉴를 반환합니다.
      *
      * @param command
      * @return
@@ -42,7 +42,6 @@ public enum Menu {
                 .filter(cur -> cur.command == command)
                 .findFirst();
         return selectedMenu.orElse(null);
-
     }
 
     public int getCommand() {
