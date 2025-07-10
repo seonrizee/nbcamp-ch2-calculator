@@ -23,6 +23,9 @@ public class App {
                     case VIEW:
                         showPrevResults(calculator.getResults());
                         break;
+                    case REMOVE_FIRST:
+                        handleRemove(calculator);
+                        break;
                     case EXIT:
                         System.out.println("계산기가 종료됩니다.");
                         isRunning = false;
@@ -34,6 +37,22 @@ public class App {
             }
         }
 
+    }
+
+    /**
+     * 저장된 연산 결과들 중 가장 먼저 저장된 데이터를 삭제합니다.
+     *
+     * @param calculator
+     */
+    private static void handleRemove(Calculator calculator) {
+        System.out.println("가장 먼저 저장된 연산 결과 삭제가 시작됩니다.");
+        if (calculator.getResults().isEmpty()) {
+            System.out.println("저장된 연산 결과가 없습니다.");
+            return;
+        }
+        int removedVale = calculator.removeFirstResult();
+        System.out.println("가장 먼저 저장된 연산 결과인 " + removedVale + "이(가) 삭제되었습니다.");
+        showPrevResults(calculator.getResults());
     }
 
     /**

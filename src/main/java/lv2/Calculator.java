@@ -40,8 +40,15 @@ public class Calculator {
             default:
                 throw new IllegalArgumentException("지원하지 않는 연산자입니다.");
         }
-        results.add(result);
+        results.offer(result);
         return result;
+    }
+
+    /**
+     * @return
+     */
+    public Integer removeFirstResult() {
+        return results.poll();
     }
 
     /**
