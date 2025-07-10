@@ -1,6 +1,7 @@
 package lv2;
 
 import java.util.ArrayDeque;
+import java.util.Optional;
 import java.util.Queue;
 
 public class Calculator {
@@ -33,12 +34,10 @@ public class Calculator {
                 break;
             case '/':
                 if (second == 0) {
-                    throw new ArithmeticException("0으로 나눌 수 없습니다.");
+                    throw new ArithmeticException();
                 }
                 result = first / second;
                 break;
-            default:
-                throw new IllegalArgumentException("지원하지 않는 연산자입니다.");
         }
         results.offer(result);
         return result;
@@ -47,8 +46,8 @@ public class Calculator {
     /**
      * @return
      */
-    public Integer removeFirstResult() {
-        return results.poll();
+    public Optional<Integer> removeFirstResult() {
+        return Optional.ofNullable(results.poll());
     }
 
     /**
@@ -57,7 +56,7 @@ public class Calculator {
      * @return
      */
     public Queue<Integer> getResults() {
-        return results;
+        return new ArrayDeque<>(results);
     }
 
     /**

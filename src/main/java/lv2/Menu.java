@@ -38,11 +38,10 @@ public enum Menu {
      * @param command
      * @return
      */
-    public static Menu getMenu(int command) {
-        Optional<Menu> selectedMenu = Arrays.stream(Menu.values())
+    public static Optional<Menu> getMenu(int command) {
+        return Arrays.stream(Menu.values())
                 .filter(cur -> cur.command == command)
                 .findFirst();
-        return selectedMenu.orElse(null);
     }
 
     public int getCommand() {

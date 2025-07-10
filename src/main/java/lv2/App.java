@@ -1,5 +1,6 @@
 package lv2;
 
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -11,11 +12,24 @@ public class App {
         boolean isRunning = true;
 
         try (Scanner sc = new Scanner(System.in)) {
+
             while (isRunning) {
                 Menu.printMenu();
-                int cmd = Integer.parseInt(sc.nextLine());
+                int cmd;
+                try {
+                    cmd = Integer.parseInt(sc.nextLine().trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("오류: 올바른 번호를 입력해주세요.");
+                    continue;
+                }
 
-                Menu selectedMenu = Menu.getMenu(cmd);
+                Optional<Menu> selectedMenuOpt = Menu.getMenu(cmd);
+                if (selectedMenuOpt.isEmpty()) {
+                    System.out.println("오류: 메뉴에 없는 번호입니다. 다시 선택해주세요.");
+                    continue;
+                }
+
+                Menu selectedMenu = selectedMenuOpt.get();
                 switch (selectedMenu) {
                     case CALCULATE:
                         handleCalculation(sc, calculator);
@@ -30,14 +44,11 @@ public class App {
                         System.out.println("계산기가 종료됩니다.");
                         isRunning = false;
                         break;
-                    default:
-                        System.out.println("다시 선택해주세요.");
-                        break;
                 }
             }
         }
-
     }
+
 
     /**
      * 저장된 연산 결과들 중 가장 먼저 저장된 데이터를 삭제합니다.
@@ -46,12 +57,14 @@ public class App {
      */
     private static void handleRemove(Calculator calculator) {
         System.out.println("가장 먼저 저장된 연산 결과 삭제가 시작됩니다.");
-        if (calculator.getResults().isEmpty()) {
+
+        Optional<Integer> removedValue = calculator.removeFirstResult();
+        if (removedValue.isEmpty()) {
             System.out.println("저장된 연산 결과가 없습니다.");
             return;
         }
-        int removedVale = calculator.removeFirstResult();
-        System.out.println("가장 먼저 저장된 연산 결과인 " + removedVale + "이(가) 삭제되었습니다.");
+
+        System.out.println("가장 먼저 저장된 연산 결과인 " + removedValue.get() + "이(가) 삭제되었습니다.");
         showPrevResults(calculator.getResults());
     }
 
@@ -83,12 +96,16 @@ public class App {
         System.out.println("계산이 시작됩니다.\n");
         int inputOrder = 1;
 
-        int first = App.getNumber(sc, inputOrder++);
-        int second = App.getNumber(sc, inputOrder++);
-        char operator = App.getOperator(sc);
+        int first = getNumber(sc, inputOrder++);
+        int second = getNumber(sc, inputOrder++);
+        char operator = getOperator(sc);
 
-        int result = calculator.calculate(first, second, operator);
-        System.out.println(first + " " + operator + " " + second + " = " + result);
+        try {
+            int result = calculator.calculate(first, second, operator);
+            System.out.println("결과: " + first + " " + operator + " " + second + " = " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("오류: 0으로 나눌 수 없습니다.");
+        }
     }
 
     /**
@@ -99,8 +116,14 @@ public class App {
      * @return
      */
     private static int getNumber(Scanner sc, int inputOrder) {
-        System.out.print(inputOrder + "번째 숫자를 입력하세요: ");
-        return Integer.parseInt(sc.nextLine());
+        while (true) {
+            System.out.print(inputOrder + "번째 숫자를 입력하세요: ");
+            try {
+                return Integer.parseInt(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("오류: 숫자를 입력해주세요.");
+            }
+        }
     }
 
 
@@ -111,8 +134,15 @@ public class App {
      * @return
      */
     private static char getOperator(Scanner sc) {
-        System.out.print("원하는 사칙연산 기호(+, -, *, /)를 입력하세요: ");
-        return sc.nextLine().charAt(0);
+        while (true) {
+            System.out.print("원하는 사칙연산 기호(+, -, *, /)를 입력하세요: ");
+            String input = sc.nextLine().trim();
+            if (input.length() != 1 || !"+-*/".contains(input)) {
+                System.out.println("오류: +, -, *, / 중 하나의 기호만 입력해야 합니다.");
+                continue;
+            }
+            return input.charAt(0);
+        }
     }
 }
 
