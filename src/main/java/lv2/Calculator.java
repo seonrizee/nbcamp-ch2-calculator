@@ -8,7 +8,7 @@ public class Calculator {
     /**
      * 연산 결과를 저장하는 컬렉션 Queue
      */
-    private final Queue<Integer> results = new ArrayDeque<>();
+    private Queue<Integer> results = new ArrayDeque<>();
 
     /**
      * 연산 결과를 반환하는 메서드
@@ -42,5 +42,23 @@ public class Calculator {
         }
         results.add(result);
         return result;
+    }
+
+    /**
+     * 연산 결과가 저장된 필드에 접근하는 메서드
+     *
+     * @return
+     */
+    public Queue<Integer> getResults() {
+        return results;
+    }
+
+    /**
+     * 연산 결과가 저장된 필드를 수정하는 메서드
+     *
+     * @param results
+     */
+    public void setResults(Queue<Integer> results) {
+        this.results = results;
     }
 }
