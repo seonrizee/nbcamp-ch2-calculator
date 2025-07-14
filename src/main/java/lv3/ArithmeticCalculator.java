@@ -30,7 +30,7 @@ public class ArithmeticCalculator {
     /**
      * 연산 결과가 저장된 Queue의 첫번째 엘리먼트를 제거합니다.
      *
-     * @return
+     * @return 제거된 엘리먼트
      */
     public Optional<Double> removeFirstResult() {
         return Optional.ofNullable(results.poll());
@@ -39,7 +39,7 @@ public class ArithmeticCalculator {
     /**
      * 연산 결과가 저장된 Queue를 반환합니다.
      *
-     * @return
+     * @return 연산 결과가 저장된 Queue
      */
     public Queue<Double> getResults() {
         return new ArrayDeque<>(results);
@@ -48,7 +48,7 @@ public class ArithmeticCalculator {
     /**
      * 연산 결과가 저장된 Queue를 수정합니다. -> 제거해도 된다고 생각하나 과제 조건이라 놔둡니다.
      *
-     * @param results
+     * @param results 연산 결과가 저장된 새로운 Queue
      */
     public void setResults(Queue<Double> results) {
         this.results = results;
@@ -57,8 +57,8 @@ public class ArithmeticCalculator {
     /**
      * 저장된 연산 결과 중 입력된 값보다 큰 값들만 List로 반환합니다.
      *
-     * @param value
-     * @return
+     * @param value 사용자가 입력한 숫자
+     * @return 저장된 연산 결과 중 입력된 값보다 큰 값들
      */
     public List<Double> getResultsGreaterThan(double value) {
         return results.stream()
@@ -69,8 +69,8 @@ public class ArithmeticCalculator {
     /**
      * 저장된 연산 결과 중 입력된 값보다 작은 값들만 List로 반환합니다.
      *
-     * @param value
-     * @return
+     * @param value 사용자가 입력한 숫자
+     * @return 저장된 연산 결과 중 입력된 값보다 작은 값들
      */
     public List<Double> getResultsLessThan(double value) {
         return results.stream()

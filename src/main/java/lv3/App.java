@@ -68,8 +68,8 @@ public class App {
     /**
      * 저장된 이전 계산 결과를 특정값 기준으로 조회합니다.
      *
-     * @param sc
-     * @param calculator
+     * @param sc         스캐너
+     * @param calculator 계산기
      */
     private static void showPrevResultsWithValues(Scanner sc, ArithmeticCalculator calculator) {
         log("이전 연산 결과 조회가 시작됩니다. (기준값 사용)");
@@ -91,7 +91,7 @@ public class App {
     /**
      * 저장된 연산 결과들 중 가장 먼저 저장된 데이터를 삭제합니다.
      *
-     * @param calculator
+     * @param calculator 계산기
      */
     private static void handleRemove(ArithmeticCalculator calculator) {
         log("가장 먼저 저장된 연산 결과 삭제가 시작됩니다.");
@@ -109,7 +109,7 @@ public class App {
     /**
      * 저장된 이전 계산 결과를 조회합니다.
      *
-     * @param prevResults
+     * @param prevResults 저장된 이전 계산 결과
      */
     private static void showPrevResults(Queue<Double> prevResults) {
         log("이전 연산 결과 조회가 시작됩니다.");
@@ -128,8 +128,8 @@ public class App {
     /**
      * 계산을 처리합니다.
      *
-     * @param sc
-     * @param calculator
+     * @param sc         스캐너
+     * @param calculator 계산기
      */
     private static void handleCalculation(Scanner sc, ArithmeticCalculator calculator) {
         log("계산이 시작됩니다.");
@@ -155,9 +155,9 @@ public class App {
     /**
      * 사용자로부터 정수를 입력받아 반환합니다.
      *
-     * @param sc
-     * @param message
-     * @return
+     * @param sc      스캐너
+     * @param message 입력받을 때 사용할 메시지
+     * @return 입력받은 정수
      */
     private static double getNumber(Scanner sc, String message) {
         while (true) {
@@ -174,8 +174,8 @@ public class App {
     /**
      * 사용자로부터 연산자를 입력받아 반환합니다.
      *
-     * @param sc
-     * @return
+     * @param sc 스캐너
+     * @return 입력받은 연산자 객체
      */
     private static OperatorType getOperator(Scanner sc) {
         while (true) {
@@ -198,8 +198,8 @@ public class App {
     /**
      * 소수점의 존재 여부에 따라 숫자의 출력을 다르게 하여 반환합니다.
      *
-     * @param number
-     * @return
+     * @param number 출력할 숫자
+     * @return 포맷된 숫자
      */
     private static String printFormatNumber(double number) {
         if (number % 1 == 0) {
@@ -212,8 +212,9 @@ public class App {
     /**
      * 저장된 연산 결과 중 입력된 조건을 만족하는 결과들을 포맷에 맞춰 출력합니다.
      *
-     * @param filteredResults
-     * @param okMsg
+     * @param filteredResults 저장된 연산 결과
+     * @param emptyMsg        결과가 없을 때 출력할 메시지
+     * @param okMsg           결과가 있을 때 출력할 메시지
      */
     private static void printFilteredResults(List<Double> filteredResults, String emptyMsg, String okMsg) {
         if (filteredResults.isEmpty()) {
@@ -230,7 +231,7 @@ public class App {
     /**
      * 일반적인 내용을 포맷에 맞춰 출력합니다.
      *
-     * @param message
+     * @param message 출력할 메시지
      */
     public static void log(String message) {
         System.out.println("APP:::: " + message);
@@ -239,7 +240,7 @@ public class App {
     /**
      * 사용자의 입력을 요청하는 내용을 포맷에 맞춰 출력합니다.
      *
-     * @param message
+     * @param message 출력할 메시지
      */
     public static void logInput(String message) {
         System.out.print("APP:::: " + message + ": ");
@@ -248,7 +249,7 @@ public class App {
     /**
      * 예외를 처리하는 내용을 포맷에 맞춰 출력합니다.
      *
-     * @param message
+     * @param message 출력할 메시지
      */
     public static void logError(String message) {
         System.out.println("App_ERROR:::: " + message);

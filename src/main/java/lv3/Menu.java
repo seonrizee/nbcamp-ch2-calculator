@@ -31,8 +31,8 @@ public enum Menu {
     /**
      * 사용자로부터 입력받은 번호에 해당하는 메뉴를 반환합니다.
      *
-     * @param command
-     * @return
+     * @param command 사용자가 입력한 번호
+     * @return 일치하는 Menu 혹은 예외
      */
     public static Menu findMenu(int command) {
         return Arrays.stream(Menu.values())

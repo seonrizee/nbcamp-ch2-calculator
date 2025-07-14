@@ -27,8 +27,8 @@ public enum OperatorType {
     /**
      * 사용자로부터 입력받은 기호에 해당하는 operator를 반환합니다.
      *
-     * @param command
-     * @return
+     * @param command 사용자가 입력한 연산자
+     * @return 일치하는 OperatorType 혹은 예외
      */
     public static OperatorType findSymbol(char command) {
         return Arrays.stream(values())
@@ -41,9 +41,9 @@ public enum OperatorType {
     /**
      * operator 유형별로 BiFunction 함수형 인터페이스의 메소드인 apply에 람다로 정의한 연산을 수행하도록 합니다.
      *
-     * @param first
-     * @param second
-     * @return
+     * @param first  사용자가 입력한 숫자
+     * @param second 사용자가 입력한 숫자
+     * @return 연산 결과
      */
     public double operate(Number first, Number second) {
         return operation.apply(first.doubleValue(), second.doubleValue());
