@@ -25,13 +25,19 @@ public class App {
                     continue;
                 }
 
-                Optional<Menu> selectedMenuOpt = Menu.getMenu(cmd);
-                if (selectedMenuOpt.isEmpty()) {
-                    logError("오류: 메뉴에 없는 번호입니다. 다시 선택해주세요.");
+                Menu selectedMenu;
+                try {
+                    selectedMenu = Menu.findMenu(cmd);
+                } catch (Exception e) {
+                    logError(e.getMessage());
                     continue;
                 }
+//                if (selectedMenuOpt.isEmpty()) {
+//                    logError("메뉴에 없는 번호입니다. 다시 선택해주세요.");
+//                    continue;
+//                }
+//                Menu selectedMenu = selectedMenuOpt.get();
 
-                Menu selectedMenu = selectedMenuOpt.get();
                 switch (selectedMenu) {
                     case CALCULATE:
                         handleCalculation(sc, calculator);
@@ -59,9 +65,10 @@ public class App {
      * 계산기에서 수행할 수 있는 모든 메뉴를 출력합니다.
      */
     private static void showAllMenu() {
+        System.out.println();
         log("--------------------------------------------------------------");
         Menu.printMenu();
-        log("--------------------------------------------------------------");
+        log("--------------------------------------------------------------\n");
         logInput("원하는 메뉴의 숫자를 입력하세요.");
     }
 
@@ -79,9 +86,9 @@ public class App {
         List<Double> filteredResults = calculator.getResultsGreaterThan(value);
 
         if (filteredResults.isEmpty()) {
-            log("저장된 연산 결과 중 " + value + "보다 큰 숫자가 없습니다.");
+            log("저장된 연산 결과 중 " + printFormatNumber(value) + "보다 큰 숫자가 없습니다.");
         } else {
-            log("저장된 연산 결과 중 " + value + "보다 큰 숫자들입니다.");
+            log("저장된 연산 결과 중 " + printFormatNumber(value) + "보다 큰 숫자들입니다.");
             for (int idx = 0; idx < filteredResults.size(); idx++) {
                 log("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
             }
@@ -90,9 +97,9 @@ public class App {
         filteredResults = calculator.getResultsLessThan(value);
 
         if (filteredResults.isEmpty()) {
-            log("저장된 연산 결과 중 " + value + "보다 작은 숫자가 없습니다.");
+            log("저장된 연산 결과 중 " + printFormatNumber(value) + "보다 작은 숫자가 없습니다.");
         } else {
-            log("저장된 연산 결과 중 " + value + "보다 작은 숫자들입니다.");
+            log("저장된 연산 결과 중 " + printFormatNumber(value) + "보다 작은 숫자들입니다.");
             for (int idx = 0; idx < filteredResults.size(); idx++) {
                 log("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
             }
@@ -144,17 +151,18 @@ public class App {
      * @param calculator
      */
     private static void handleCalculation(Scanner sc, ArithmeticCalculator calculator) {
-        log("계산이 시작됩니다.\n");
+        log("계산이 시작됩니다.");
         int inputOrder = 1;
 
         double first = getNumber(sc, inputOrder++ + "번째 숫자를 입력하세요.");
         double second = getNumber(sc, inputOrder++ + "번째 숫자를 입력하세요.");
-        char operator = getOperator(sc);
+        OperatorType operator = getOperator(sc);
 
         try {
             double result = calculator.calculate(first, second, operator);
             log(
-                    "결과: " + printFormatNumber(first) + " " + operator + " " + printFormatNumber(second) + " = "
+                    "결과: " + printFormatNumber(first) + " " + operator.getSymbol() + " " + printFormatNumber(second)
+                            + " = "
                             + printFormatNumber(result));
         } catch (ArithmeticException e) {
             logError("0으로 나눌 수 없습니다.");
@@ -188,7 +196,7 @@ public class App {
      * @param sc
      * @return
      */
-    private static char getOperator(Scanner sc) {
+    private static OperatorType getOperator(Scanner sc) {
         while (true) {
             logInput("원하는 사칙연산 기호(+, -, *, /)를 입력하세요.");
 
@@ -199,8 +207,7 @@ public class App {
             }
             char inputChar = input.charAt(0);
             try {
-                OperatorType selectedType = OperatorType.findSymbol(inputChar);
-                return selectedType.getSymbol();
+                return OperatorType.findSymbol(inputChar);
             } catch (IllegalArgumentException e) {
                 logError(e.getMessage());
             }

@@ -3,7 +3,6 @@ package lv3;
 import static lv3.App.log;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 public enum Menu {
 
@@ -35,10 +34,11 @@ public enum Menu {
      * @param command
      * @return
      */
-    public static Optional<Menu> getMenu(int command) {
+    public static Menu findMenu(int command) {
         return Arrays.stream(Menu.values())
                 .filter(cur -> cur.ordinal() + 1 == command)
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("메뉴에 없는 번호입니다. 올바른 번호를 입력해주세요"));
     }
 
     public String getDescription() {

@@ -14,14 +14,13 @@ public class ArithmeticCalculator {
     /**
      * 입력된 숫자와 연산자에 따라 연산을 수행하여 결과를 반환합니다.
      *
-     * @param first   첫번쨰 입력된 숫자
-     * @param second  두번째 입력된 숫자
-     * @param command 입력된 연산자
+     * @param first        첫번쨰 입력된 숫자
+     * @param second       두번째 입력된 숫자
+     * @param operatorType 입력된 연산자
      * @return 연산 결과
      */
-    public <T extends Number> double calculate(T first, T second, char command) {
+    public <T extends Number> double calculate(T first, T second, OperatorType operatorType) {
 
-        OperatorType operatorType = OperatorType.findSymbol(command);
         double result = operatorType.operate(first, second);
 
         results.offer(result);
