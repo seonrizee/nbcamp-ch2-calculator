@@ -66,10 +66,16 @@ public class App {
             return;
         }
 
-        IntStream.range(0, prevFilterResults.size())
-                .forEach(idx -> {
-                    System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(prevFilterResults.get(idx)));
-                });
+        System.out.println("저장된 연산 결과 중 기준보다 큰 숫자들입니다.");
+        for (int idx = 0; idx < prevFilterResults.size(); idx++) {
+            System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(prevFilterResults.get(idx)));
+        }
+
+        prevFilterResults = calculator.getResultsLessThan(value);
+        System.out.println("저장된 연산 결과 중 기준보다 작은 숫자들입니다.");
+        for (int idx = 0; idx < prevFilterResults.size(); idx++) {
+            System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(prevFilterResults.get(idx)));
+        }
     }
 
 

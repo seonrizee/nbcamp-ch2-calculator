@@ -7,7 +7,7 @@ public enum Menu {
 
     CALCULATE("계산하기"),
     VIEW("이전 연산 결과 조회하기"),
-    VIEW_WITH_VALUE("이전 연산 결과 중 입력 값보다 큰 결과만 조회하기"),
+    VIEW_WITH_VALUE("이전 연산 결과 조회하기 (입력값을 기준으로 크거나, 작은 목록)"),
     REMOVE_FIRST("가장 먼저 저장된 연산 결과 삭제하기"),
     EXIT("종료하기"),
     ;

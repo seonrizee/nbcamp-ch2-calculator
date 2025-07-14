@@ -67,5 +67,16 @@ public class ArithmeticCalculator {
                 .toList();
     }
 
+    /**
+     * 저장된 연산 결과 중 입력된 값보다 작은 값들만 List로 반환합니다.
+     *
+     * @param value
+     * @return
+     */
+    public List<Double> getResultsLessThan(double value) {
+        return results.stream()
+                .filter(cur -> cur < value)
+                .toList();
+    }
 
 }
