@@ -101,7 +101,7 @@ public class App {
         OperatorType operator = getOperator(sc);
 
         try {
-            double result = calculator.calculate(first, second, operator);
+            double result = (double) calculator.calculate(first, second, operator);
             log(
                     "결과: " + printFormatNumber(first) + " " + operator.getSymbol() + " " + printFormatNumber(second)
                             + " = "
