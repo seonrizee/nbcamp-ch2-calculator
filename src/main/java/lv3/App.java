@@ -17,26 +17,17 @@ public class App {
             while (isRunning) {
                 showAllMenu();
 
-                int cmd;
-                try {
-                    cmd = Integer.parseInt(sc.nextLine().trim());
-                } catch (NumberFormatException e) {
-                    logError("올바른 번호를 입력해주세요.");
-                    continue;
-                }
-
                 Menu selectedMenu;
                 try {
+                    int cmd = Integer.parseInt(sc.nextLine().trim());
                     selectedMenu = Menu.findMenu(cmd);
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
+                    logError("원하는 메뉴의 번호를 입력하세요.");
+                    continue;
+                } catch (IllegalArgumentException e) {
                     logError(e.getMessage());
                     continue;
                 }
-//                if (selectedMenuOpt.isEmpty()) {
-//                    logError("메뉴에 없는 번호입니다. 다시 선택해주세요.");
-//                    continue;
-//                }
-//                Menu selectedMenu = selectedMenuOpt.get();
 
                 switch (selectedMenu) {
                     case CALCULATE:
