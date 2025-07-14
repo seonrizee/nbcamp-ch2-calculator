@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.stream.IntStream;
 
 public class App {
 
@@ -55,26 +54,30 @@ public class App {
     }
 
     private static void showPrevResultsWithValues(Scanner sc, ArithmeticCalculator calculator) {
-        System.out.println("이전 연산 결과 조회가 시작됩니다.");
+        System.out.println("이전 연산 결과 조회가 시작됩니다. (기준값 사용)");
 
         System.out.print("기준이 될 숫자를 입력하세요: ");
         double value = getNumber(sc);
-        List<Double> prevFilterResults = calculator.getResultsGreaterThan(value);
+        List<Double> filteredResults = calculator.getResultsGreaterThan(value);
 
-        if (prevFilterResults.isEmpty()) {
-            System.out.println("저장된 결과가 없습니다.");
-            return;
+        if (filteredResults.isEmpty()) {
+            System.out.println("저장된 연산 결과 중 기준보다 큰 숫자가 없습니다.");
+        } else {
+            System.out.println("저장된 연산 결과 중 기준보다 큰 숫자들입니다.");
+            for (int idx = 0; idx < filteredResults.size(); idx++) {
+                System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
+            }
         }
 
-        System.out.println("저장된 연산 결과 중 기준보다 큰 숫자들입니다.");
-        for (int idx = 0; idx < prevFilterResults.size(); idx++) {
-            System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(prevFilterResults.get(idx)));
-        }
+        filteredResults = calculator.getResultsLessThan(value);
 
-        prevFilterResults = calculator.getResultsLessThan(value);
-        System.out.println("저장된 연산 결과 중 기준보다 작은 숫자들입니다.");
-        for (int idx = 0; idx < prevFilterResults.size(); idx++) {
-            System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(prevFilterResults.get(idx)));
+        if (filteredResults.isEmpty()) {
+            System.out.println("저장된 연산 결과 중 기준보다 작은 숫자가 없습니다.");
+        } else {
+            System.out.println("저장된 연산 결과 중 기준보다 작은 숫자들입니다.");
+            for (int idx = 0; idx < filteredResults.size(); idx++) {
+                System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
+            }
         }
     }
 
@@ -104,6 +107,7 @@ public class App {
      */
     private static void showPrevResults(Queue<Double> prevResults) {
         System.out.println("이전 연산 결과 조회가 시작됩니다.");
+
         if (prevResults.isEmpty()) {
             System.out.println("저장된 결과가 없습니다.");
             return;
