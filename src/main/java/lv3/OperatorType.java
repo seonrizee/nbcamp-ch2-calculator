@@ -9,7 +9,7 @@ public enum OperatorType {
     MULTIPLY('*', (first, second) -> first * second),
     DIVIDE('/', (first, second) -> {
         if (second == 0) {
-            throw new ArithmeticException("오류: 0으로 나눌 수 없습니다.");
+            throw new ArithmeticException("0으로 나눌 수 없습니다.");
         }
         return first / second;
     });
@@ -18,8 +18,8 @@ public enum OperatorType {
     private final char symbol;
     private final BiFunction<Double, Double, Double> operation;
 
-    OperatorType(char command, BiFunction<Double, Double, Double> operation) {
-        this.symbol = command;
+    OperatorType(char symbol, BiFunction<Double, Double, Double> operation) {
+        this.symbol = symbol;
         this.operation = operation;
     }
 
@@ -34,7 +34,7 @@ public enum OperatorType {
         return Arrays.stream(values())
                 .filter(op -> op.symbol == command)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("오류: 지원하지 않는 연산자 기호입니다: " + command));
+                .orElseThrow(() -> new IllegalArgumentException("+, -, *, / 중 하나의 기호만 입력해야 합니다."));
     }
 
 
@@ -49,4 +49,7 @@ public enum OperatorType {
         return operation.apply(first.doubleValue(), second.doubleValue());
     }
 
+    public char getSymbol() {
+        return symbol;
+    }
 }

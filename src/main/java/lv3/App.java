@@ -15,18 +15,19 @@ public class App {
         try (Scanner sc = new Scanner(System.in)) {
 
             while (isRunning) {
-                Menu.printMenu();
+                showAllMenu();
+
                 int cmd;
                 try {
                     cmd = Integer.parseInt(sc.nextLine().trim());
                 } catch (NumberFormatException e) {
-                    System.out.println("오류: 올바른 번호를 입력해주세요.");
+                    logError("올바른 번호를 입력해주세요.");
                     continue;
                 }
 
                 Optional<Menu> selectedMenuOpt = Menu.getMenu(cmd);
                 if (selectedMenuOpt.isEmpty()) {
-                    System.out.println("오류: 메뉴에 없는 번호입니다. 다시 선택해주세요.");
+                    logError("오류: 메뉴에 없는 번호입니다. 다시 선택해주세요.");
                     continue;
                 }
 
@@ -45,7 +46,7 @@ public class App {
                         handleRemove(calculator);
                         break;
                     case EXIT:
-                        System.out.println("계산기가 종료됩니다.");
+                        log("계산기가 종료됩니다.");
                         isRunning = false;
                         break;
                 }
@@ -53,30 +54,47 @@ public class App {
         }
     }
 
-    private static void showPrevResultsWithValues(Scanner sc, ArithmeticCalculator calculator) {
-        System.out.println("이전 연산 결과 조회가 시작됩니다. (기준값 사용)");
 
-        System.out.print("기준이 될 숫자를 입력하세요: ");
-        double value = getNumber(sc);
+    /**
+     * 계산기에서 수행할 수 있는 모든 메뉴를 출력합니다.
+     */
+    private static void showAllMenu() {
+        log("--------------------------------------------------------------");
+        Menu.printMenu();
+        log("--------------------------------------------------------------");
+        logInput("원하는 메뉴의 숫자를 입력하세요.");
+    }
+
+
+    /**
+     * 저장된 이전 계산 결과를 특정값 기준으로 출력합니다.
+     *
+     * @param sc
+     * @param calculator
+     */
+    private static void showPrevResultsWithValues(Scanner sc, ArithmeticCalculator calculator) {
+        log("이전 연산 결과 조회가 시작됩니다. (기준값 사용)");
+
+        double value = getNumber(sc, "기준이 될 숫자를 입력하세요.");
         List<Double> filteredResults = calculator.getResultsGreaterThan(value);
 
         if (filteredResults.isEmpty()) {
-            System.out.println("저장된 연산 결과 중 기준보다 큰 숫자가 없습니다.");
+            log("저장된 연산 결과 중 " + value + "보다 큰 숫자가 없습니다.");
         } else {
-            System.out.println("저장된 연산 결과 중 기준보다 큰 숫자들입니다.");
+            log("저장된 연산 결과 중 " + value + "보다 큰 숫자들입니다.");
             for (int idx = 0; idx < filteredResults.size(); idx++) {
-                System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
+                log("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
             }
         }
 
         filteredResults = calculator.getResultsLessThan(value);
 
         if (filteredResults.isEmpty()) {
-            System.out.println("저장된 연산 결과 중 기준보다 작은 숫자가 없습니다.");
+            log("저장된 연산 결과 중 " + value + "보다 작은 숫자가 없습니다.");
         } else {
-            System.out.println("저장된 연산 결과 중 기준보다 작은 숫자들입니다.");
+            log("저장된 연산 결과 중 " + value + "보다 작은 숫자들입니다.");
             for (int idx = 0; idx < filteredResults.size(); idx++) {
-                System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
+                log("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
             }
         }
     }
@@ -88,15 +106,15 @@ public class App {
      * @param calculator
      */
     private static void handleRemove(ArithmeticCalculator calculator) {
-        System.out.println("가장 먼저 저장된 연산 결과 삭제가 시작됩니다.");
+        log("가장 먼저 저장된 연산 결과 삭제가 시작됩니다.");
 
         Optional<Double> removedValue = calculator.removeFirstResult();
         if (removedValue.isEmpty()) {
-            System.out.println("저장된 연산 결과가 없습니다.");
+            log("저장된 연산 결과가 없습니다.");
             return;
         }
 
-        System.out.println("가장 먼저 저장된 연산 결과인 " + printFormatNumber(removedValue.get()) + "이(가) 삭제되었습니다.");
+        log("가장 먼저 저장된 연산 결과인 " + printFormatNumber(removedValue.get()) + "이(가) 삭제되었습니다.");
         showPrevResults(calculator.getResults());
     }
 
@@ -106,16 +124,16 @@ public class App {
      * @param prevResults
      */
     private static void showPrevResults(Queue<Double> prevResults) {
-        System.out.println("이전 연산 결과 조회가 시작됩니다.");
+        log("이전 연산 결과 조회가 시작됩니다.");
 
         if (prevResults.isEmpty()) {
-            System.out.println("저장된 결과가 없습니다.");
+            log("저장된 결과가 없습니다.");
             return;
         }
 
         int idx = 1;
         for (Double cur : prevResults) {
-            System.out.println("[" + idx++ + "]: " + printFormatNumber(cur));
+            log("[" + idx++ + "]: " + printFormatNumber(cur));
         }
     }
 
@@ -126,22 +144,22 @@ public class App {
      * @param calculator
      */
     private static void handleCalculation(Scanner sc, ArithmeticCalculator calculator) {
-        System.out.println("계산이 시작됩니다.\n");
+        log("계산이 시작됩니다.\n");
         int inputOrder = 1;
 
-        System.out.print(inputOrder++ + "번째 숫자를 입력하세요: ");
-        double first = getNumber(sc);
-        System.out.print(inputOrder++ + "번째 숫자를 입력하세요: ");
-        double second = getNumber(sc);
+        double first = getNumber(sc, inputOrder++ + "번째 숫자를 입력하세요.");
+        double second = getNumber(sc, inputOrder++ + "번째 숫자를 입력하세요.");
         char operator = getOperator(sc);
 
         try {
             double result = calculator.calculate(first, second, operator);
-            System.out.println(
+            log(
                     "결과: " + printFormatNumber(first) + " " + operator + " " + printFormatNumber(second) + " = "
                             + printFormatNumber(result));
         } catch (ArithmeticException e) {
-            System.out.println("오류: 0으로 나눌 수 없습니다.");
+            logError("0으로 나눌 수 없습니다.");
+        } catch (IllegalArgumentException e) {
+            logError(e.getMessage());
         }
     }
 
@@ -149,14 +167,16 @@ public class App {
      * 사용자로부터 정수를 입력받아 반환합니다.
      *
      * @param sc
+     * @param message
      * @return
      */
-    private static double getNumber(Scanner sc) {
+    private static double getNumber(Scanner sc, String message) {
         while (true) {
+            logInput(message);
             try {
                 return Double.parseDouble(sc.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println("오류: 숫자를 입력해주세요. ");
+                logError("숫자를 입력해주세요. ");
             }
         }
     }
@@ -170,13 +190,20 @@ public class App {
      */
     private static char getOperator(Scanner sc) {
         while (true) {
-            System.out.print("원하는 사칙연산 기호(+, -, *, /)를 입력하세요: ");
+            logInput("원하는 사칙연산 기호(+, -, *, /)를 입력하세요.");
+
             String input = sc.nextLine().trim();
-            if (input.length() != 1 || !"+-*/".contains(input)) {
-                System.out.println("오류: +, -, *, / 중 하나의 기호만 입력해야 합니다.");
+            if (input.length() != 1) {
+                logError("연산자 기호는 한 글자만 입력해야 합니다.");
                 continue;
             }
-            return input.charAt(0);
+            char inputChar = input.charAt(0);
+            try {
+                OperatorType selectedType = OperatorType.findSymbol(inputChar);
+                return selectedType.getSymbol();
+            } catch (IllegalArgumentException e) {
+                logError(e.getMessage());
+            }
         }
     }
 
@@ -191,6 +218,34 @@ public class App {
             return String.valueOf((long) number);
         }
         return String.valueOf(number);
+    }
+
+
+    /**
+     * 일반적인 내용을 포맷에 맞춰 출력합니다.
+     *
+     * @param message
+     */
+    public static void log(String message) {
+        System.out.println("APP:::: " + message);
+    }
+
+    /**
+     * 사용자의 입력을 요청하는 내용을 포맷에 맞춰 출력합니다.
+     *
+     * @param message
+     */
+    public static void logInput(String message) {
+        System.out.print("APP:::: " + message + ": ");
+    }
+
+    /**
+     * 예외를 처리하는 내용을 포맷에 맞춰 출력합니다.
+     *
+     * @param message
+     */
+    public static void logError(String message) {
+        System.out.println("App_ERROR:::: " + message);
     }
 }
 

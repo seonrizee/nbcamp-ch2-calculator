@@ -1,5 +1,7 @@
 package lv3;
 
+import static lv3.App.log;
+
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -22,13 +24,9 @@ public enum Menu {
      * 사용자가 선택할 수 있는 메뉴를 출력합니다.
      */
     public static void printMenu() {
-        System.out.println();
-        System.out.println("---------------------------------------------");
         for (Menu menu : Menu.values()) {
-            System.out.println((menu.ordinal() + 1) + ". " + menu.getDescription());
+            log((menu.ordinal() + 1) + ". " + menu.getDescription());
         }
-        System.out.println("---------------------------------------------");
-        System.out.print("원하는 기능의 번호를 입력해주세요: ");
     }
 
     /**
