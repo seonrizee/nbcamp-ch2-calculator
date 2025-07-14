@@ -74,7 +74,7 @@ public class App {
 
 
     /**
-     * 저장된 이전 계산 결과를 특정값 기준으로 출력합니다.
+     * 저장된 이전 계산 결과를 특정값 기준으로 조회합니다.
      *
      * @param sc
      * @param calculator
@@ -83,27 +83,16 @@ public class App {
         log("이전 연산 결과 조회가 시작됩니다. (기준값 사용)");
 
         double value = getNumber(sc, "기준이 될 숫자를 입력하세요.");
-        List<Double> filteredResults = calculator.getResultsGreaterThan(value);
 
-        if (filteredResults.isEmpty()) {
-            log("저장된 연산 결과 중 " + printFormatNumber(value) + "보다 큰 숫자가 없습니다.");
-        } else {
-            log("저장된 연산 결과 중 " + printFormatNumber(value) + "보다 큰 숫자들입니다.");
-            for (int idx = 0; idx < filteredResults.size(); idx++) {
-                log("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
-            }
-        }
+        List<Double> filteredResults = calculator.getResultsGreaterThan(value);
+        printFilteredResults(filteredResults,
+                "저장된 연산 결과 중 " + printFormatNumber(value) + "보다 큰 숫자가 없습니다.",
+                "저장된 연산 결과 중 " + printFormatNumber(value) + "보다 큰 숫자 목록입니다.");
 
         filteredResults = calculator.getResultsLessThan(value);
-
-        if (filteredResults.isEmpty()) {
-            log("저장된 연산 결과 중 " + printFormatNumber(value) + "보다 작은 숫자가 없습니다.");
-        } else {
-            log("저장된 연산 결과 중 " + printFormatNumber(value) + "보다 작은 숫자들입니다.");
-            for (int idx = 0; idx < filteredResults.size(); idx++) {
-                log("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
-            }
-        }
+        printFilteredResults(filteredResults,
+                "저장된 연산 결과 중 " + printFormatNumber(value) + "보다 작은 숫자가 없습니다.",
+                "저장된 연산 결과 중 " + printFormatNumber(value) + "보다 작은 숫자 목록입니다.");
     }
 
 
@@ -126,7 +115,7 @@ public class App {
     }
 
     /**
-     * 저장된 이전 계산 결과를 출력합니다.
+     * 저장된 이전 계산 결과를 조회합니다.
      *
      * @param prevResults
      */
@@ -225,6 +214,24 @@ public class App {
             return String.valueOf((long) number);
         }
         return String.valueOf(number);
+    }
+
+
+    /**
+     * 저장된 연산 결과 중 입력된 조건을 만족하는 결과들을 포맷에 맞춰 출력합니다.
+     *
+     * @param filteredResults
+     * @param okMsg
+     */
+    private static void printFilteredResults(List<Double> filteredResults, String emptyMsg, String okMsg) {
+        if (filteredResults.isEmpty()) {
+            log(emptyMsg);
+        } else {
+            log(okMsg);
+            for (int idx = 0; idx < filteredResults.size(); idx++) {
+                log("[" + (idx + 1) + "]: " + printFormatNumber(filteredResults.get(idx)));
+            }
+        }
     }
 
 
