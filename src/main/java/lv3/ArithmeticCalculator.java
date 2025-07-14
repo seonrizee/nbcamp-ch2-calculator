@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Optional;
 import java.util.Queue;
 
-public class Calculator {
+public class ArithmeticCalculator {
     /**
      * 연산 결과를 저장하는 컬렉션 Queue
      */

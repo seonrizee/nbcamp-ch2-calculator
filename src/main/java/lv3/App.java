@@ -8,7 +8,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        Calculator calculator = new Calculator();
+        ArithmeticCalculator calculator = new ArithmeticCalculator();
         boolean isRunning = true;
 
         try (Scanner sc = new Scanner(System.in)) {
@@ -55,7 +55,7 @@ public class App {
      *
      * @param calculator
      */
-    private static void handleRemove(Calculator calculator) {
+    private static void handleRemove(ArithmeticCalculator calculator) {
         System.out.println("가장 먼저 저장된 연산 결과 삭제가 시작됩니다.");
 
         Optional<Double> removedValue = calculator.removeFirstResult();
@@ -92,7 +92,7 @@ public class App {
      * @param sc
      * @param calculator
      */
-    private static void handleCalculation(Scanner sc, Calculator calculator) {
+    private static void handleCalculation(Scanner sc, ArithmeticCalculator calculator) {
         System.out.println("계산이 시작됩니다.\n");
         int inputOrder = 1;
 
