@@ -1,8 +1,8 @@
 package lv3;
 
-import static lv3.App.log;
-
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum Menu {
 
@@ -20,12 +20,12 @@ public enum Menu {
     }
 
     /**
-     * 사용자가 선택할 수 있는 메뉴를 출력합니다.
+     * 사용자가 선택할 수 있는 메뉴의 목록을 반환합니다.
      */
-    public static void printMenu() {
-        for (Menu menu : Menu.values()) {
-            log((menu.ordinal() + 1) + ". " + menu.getDescription());
-        }
+    public static List<String> getFormattedMenuItems() {
+        return Arrays.stream(Menu.values())
+                .map(menu -> (menu.ordinal() + 1) + ". " + menu.getDescription())
+                .collect(Collectors.toList());
     }
 
     /**

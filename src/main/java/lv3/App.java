@@ -67,7 +67,8 @@ public class App {
     private static void showAllMenu() {
         System.out.println();
         log("--------------------------------------------------------------");
-        Menu.printMenu();
+        Menu.getFormattedMenuItems()
+                .forEach(App::log);
         log("--------------------------------------------------------------\n");
         logInput("원하는 메뉴의 숫자를 입력하세요.");
     }
