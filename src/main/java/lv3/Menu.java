@@ -6,16 +6,18 @@ import java.util.stream.Collectors;
 
 public enum Menu {
 
-    CALCULATE("계산하기"),
-    VIEW("이전 연산 결과 조회하기"),
-    VIEW_WITH_VALUE("이전 연산 결과 조회하기 (입력값을 기준으로 크거나, 작은 목록)"),
-    REMOVE_FIRST("가장 먼저 저장된 연산 결과 삭제하기"),
-    EXIT("종료하기"),
+    CALCULATE(1, "계산하기"),
+    VIEW(2, "이전 연산 결과 조회하기"),
+    VIEW_WITH_VALUE(3, "이전 연산 결과 조회하기 (입력값을 기준으로 크거나, 작은 목록)"),
+    REMOVE_FIRST(4, "가장 먼저 저장된 연산 결과 삭제하기"),
+    EXIT(5, "종료하기"),
     ;
 
+    private final int command;
     private final String description;
 
-    Menu(String description) {
+    Menu(int command, String description) {
+        this.command = command;
         this.description = description;
     }
 
@@ -24,7 +26,7 @@ public enum Menu {
      */
     public static List<String> getFormattedMenuItems() {
         return Arrays.stream(Menu.values())
-                .map(menu -> (menu.ordinal() + 1) + ". " + menu.getDescription())
+                .map(menu -> (menu.getCommand()) + ". " + menu.getDescription())
                 .collect(Collectors.toList());
     }
 
@@ -36,9 +38,13 @@ public enum Menu {
      */
     public static Menu findMenu(int command) {
         return Arrays.stream(Menu.values())
-                .filter(cur -> cur.ordinal() + 1 == command)
+                .filter(menu -> menu.command == command)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("메뉴에 없는 번호입니다. 올바른 번호를 입력해주세요"));
+    }
+
+    public int getCommand() {
+        return command;
     }
 
     public String getDescription() {
