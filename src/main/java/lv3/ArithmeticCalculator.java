@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
-public class ArithmeticCalculator {
+public class ArithmeticCalculator implements Calculator {
     /**
      * 연산 결과를 저장하는 컬렉션 Queue 입니다.
      */
@@ -19,7 +19,8 @@ public class ArithmeticCalculator {
      * @param operatorType 입력된 연산자
      * @return 연산 결과
      */
-    public <T extends Number> double calculate(T first, T second, OperatorType operatorType) {
+    @Override
+    public <T extends Number> Number calculate(T first, T second, OperatorType operatorType) {
 
         double result = operatorType.operate(first, second);
 
