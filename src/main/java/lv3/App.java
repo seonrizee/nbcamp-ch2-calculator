@@ -7,50 +7,13 @@ import java.util.Scanner;
 
 public class App {
 
-    public static void main(String[] args) {
+    private final ArithmeticCalculator calculator;
+    private final Scanner sc;
 
-        ArithmeticCalculator calculator = new ArithmeticCalculator();
-        boolean isRunning = true;
-
-        try (Scanner sc = new Scanner(System.in)) {
-
-            while (isRunning) {
-                showAllMenu();
-
-                Menu selectedMenu;
-                try {
-                    int cmd = Integer.parseInt(sc.nextLine().trim());
-                    selectedMenu = Menu.findMenu(cmd);
-                } catch (NumberFormatException e) {
-                    logError("원하는 메뉴의 번호를 입력하세요.");
-                    continue;
-                } catch (IllegalArgumentException e) {
-                    logError(e.getMessage());
-                    continue;
-                }
-
-                switch (selectedMenu) {
-                    case CALCULATE:
-                        handleCalculation(sc, calculator);
-                        break;
-                    case VIEW:
-                        showPrevResults(calculator.getResults());
-                        break;
-                    case VIEW_WITH_VALUE:
-                        showPrevResultsWithValues(sc, calculator);
-                        break;
-                    case REMOVE_FIRST:
-                        handleRemove(calculator);
-                        break;
-                    case EXIT:
-                        log("계산기가 종료됩니다.");
-                        isRunning = false;
-                        break;
-                }
-            }
-        }
+    public App(ArithmeticCalculator calculator, Scanner sc) {
+        this.calculator = calculator;
+        this.sc = sc;
     }
-
 
     /**
      * 계산기에서 수행할 수 있는 모든 메뉴를 출력합니다.
@@ -63,7 +26,6 @@ public class App {
         log("--------------------------------------------------------------\n");
         logInput("원하는 메뉴의 숫자를 입력하세요.");
     }
-
 
     /**
      * 저장된 이전 계산 결과를 특정값 기준으로 조회합니다.
@@ -86,7 +48,6 @@ public class App {
                 "저장된 연산 결과 중 " + printFormatNumber(value) + "보다 작은 숫자가 없습니다.",
                 "저장된 연산 결과 중 " + printFormatNumber(value) + "보다 작은 숫자 목록입니다.");
     }
-
 
     /**
      * 저장된 연산 결과들 중 가장 먼저 저장된 데이터를 삭제합니다.
@@ -170,7 +131,6 @@ public class App {
         }
     }
 
-
     /**
      * 사용자로부터 연산자를 입력받아 반환합니다.
      *
@@ -208,7 +168,6 @@ public class App {
         return String.valueOf(number);
     }
 
-
     /**
      * 저장된 연산 결과 중 입력된 조건을 만족하는 결과들을 포맷에 맞춰 출력합니다.
      *
@@ -226,7 +185,6 @@ public class App {
             }
         }
     }
-
 
     /**
      * 일반적인 내용을 포맷에 맞춰 출력합니다.
@@ -253,6 +211,46 @@ public class App {
      */
     public static void logError(String message) {
         System.out.println("App_ERROR:::: " + message);
+    }
+
+    public void run() {
+        boolean isRunning = true;
+
+        while (isRunning) {
+            showAllMenu();
+
+            Menu selectedMenu;
+            try {
+                int cmd = Integer.parseInt(sc.nextLine().trim());
+                selectedMenu = Menu.findMenu(cmd);
+            } catch (NumberFormatException e) {
+                logError("원하는 메뉴의 번호를 입력하세요.");
+                continue;
+            } catch (IllegalArgumentException e) {
+                logError(e.getMessage());
+                continue;
+            }
+
+            switch (selectedMenu) {
+                case CALCULATE:
+                    handleCalculation(sc, calculator);
+                    break;
+                case VIEW:
+                    showPrevResults(calculator.getResults());
+                    break;
+                case VIEW_WITH_VALUE:
+                    showPrevResultsWithValues(sc, calculator);
+                    break;
+                case REMOVE_FIRST:
+                    handleRemove(calculator);
+                    break;
+                case EXIT:
+                    log("계산기가 종료됩니다.");
+                    isRunning = false;
+                    break;
+            }
+        }
+
     }
 }
 
