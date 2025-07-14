@@ -5,11 +5,10 @@ import java.util.Optional;
 import java.util.Queue;
 
 public class Calculator {
-
     /**
      * 연산 결과를 저장하는 컬렉션 Queue
      */
-    private Queue<Integer> results = new ArrayDeque<>();
+    private Queue<Double> results = new ArrayDeque<>();
 
     /**
      * 연산 결과를 반환하는 메서드
@@ -19,10 +18,10 @@ public class Calculator {
      * @param command 입력된 연산자
      * @return 연산 결과
      */
-    public int calculate(int first, int second, char command) {
+    public <T extends Number> double calculate(T first, T second, char command) {
 
         OperatorType operatorType = OperatorType.getOperatorFromCmd(command);
-        int result = operatorType.operate(first, second);
+        double result = operatorType.operate(first.doubleValue(), second.doubleValue());
 
         results.offer(result);
         return result;
@@ -31,7 +30,7 @@ public class Calculator {
     /**
      * @return
      */
-    public Optional<Integer> removeFirstResult() {
+    public Optional<Double> removeFirstResult() {
         return Optional.ofNullable(results.poll());
     }
 
@@ -40,7 +39,7 @@ public class Calculator {
      *
      * @return
      */
-    public Queue<Integer> getResults() {
+    public Queue<Double> getResults() {
         return new ArrayDeque<>(results);
     }
 
@@ -49,7 +48,7 @@ public class Calculator {
      *
      * @param results
      */
-    public void setResults(Queue<Integer> results) {
+    public void setResults(Queue<Double> results) {
         this.results = results;
     }
 }

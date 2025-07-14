@@ -58,13 +58,13 @@ public class App {
     private static void handleRemove(Calculator calculator) {
         System.out.println("가장 먼저 저장된 연산 결과 삭제가 시작됩니다.");
 
-        Optional<Integer> removedValue = calculator.removeFirstResult();
+        Optional<Double> removedValue = calculator.removeFirstResult();
         if (removedValue.isEmpty()) {
             System.out.println("저장된 연산 결과가 없습니다.");
             return;
         }
 
-        System.out.println("가장 먼저 저장된 연산 결과인 " + removedValue.get() + "이(가) 삭제되었습니다.");
+        System.out.println("가장 먼저 저장된 연산 결과인 " + printFormatNumber(removedValue.get()) + "이(가) 삭제되었습니다.");
         showPrevResults(calculator.getResults());
     }
 
@@ -73,7 +73,7 @@ public class App {
      *
      * @param prevResults
      */
-    private static void showPrevResults(Queue<Integer> prevResults) {
+    private static void showPrevResults(Queue<Double> prevResults) {
         System.out.println("이전 연산 결과 조회가 시작됩니다.");
         if (prevResults.isEmpty()) {
             System.out.println("저장된 결과가 없습니다.");
@@ -81,8 +81,8 @@ public class App {
         }
 
         int idx = 1;
-        for (Integer cur : prevResults) {
-            System.out.println("[" + idx++ + "]: " + cur);
+        for (Double cur : prevResults) {
+            System.out.println("[" + idx++ + "]: " + printFormatNumber(cur));
         }
     }
 
@@ -96,13 +96,15 @@ public class App {
         System.out.println("계산이 시작됩니다.\n");
         int inputOrder = 1;
 
-        int first = getNumber(sc, inputOrder++);
-        int second = getNumber(sc, inputOrder++);
+        double first = getNumber(sc, inputOrder++);
+        double second = getNumber(sc, inputOrder++);
         char operator = getOperator(sc);
 
         try {
-            int result = calculator.calculate(first, second, operator);
-            System.out.println("결과: " + first + " " + operator + " " + second + " = " + result);
+            double result = calculator.calculate(first, second, operator);
+            System.out.println(
+                    "결과: " + printFormatNumber(first) + " " + operator + " " + printFormatNumber(second) + " = "
+                            + printFormatNumber(result));
         } catch (ArithmeticException e) {
             System.out.println("오류: 0으로 나눌 수 없습니다.");
         }
@@ -115,11 +117,11 @@ public class App {
      * @param inputOrder
      * @return
      */
-    private static int getNumber(Scanner sc, int inputOrder) {
+    private static double getNumber(Scanner sc, int inputOrder) {
         while (true) {
             System.out.print(inputOrder + "번째 숫자를 입력하세요: ");
             try {
-                return Integer.parseInt(sc.nextLine().trim());
+                return Double.parseDouble(sc.nextLine().trim());
             } catch (NumberFormatException e) {
                 System.out.println("오류: 숫자를 입력해주세요.");
             }
@@ -143,6 +145,19 @@ public class App {
             }
             return input.charAt(0);
         }
+    }
+
+    /**
+     * 소수점의 존재 여부에 따라 숫자의 출력을 다르게 하여 반환합니다.
+     *
+     * @param number
+     * @return
+     */
+    private static String printFormatNumber(double number) {
+        if (number % 1 == 0) {
+            return String.valueOf((long) number);
+        }
+        return String.valueOf(number);
     }
 }
 
