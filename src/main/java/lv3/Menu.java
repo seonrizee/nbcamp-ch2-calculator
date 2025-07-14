@@ -5,17 +5,16 @@ import java.util.Optional;
 
 public enum Menu {
 
-    CALCULATE(1, "계산하기"),
-    VIEW(2, "이전 연산 결과 조회하기"),
-    REMOVE_FIRST(3, "가장 먼저 저장된 연산 결과 삭제하기"),
-    EXIT(4, "종료하기"),
+    CALCULATE("계산하기"),
+    VIEW("이전 연산 결과 조회하기"),
+    VIEW_WITH_VALUE("이전 연산 결과 중 입력 값보다 큰 결과만 조회하기"),
+    REMOVE_FIRST("가장 먼저 저장된 연산 결과 삭제하기"),
+    EXIT("종료하기"),
     ;
 
-    private final int command;
     private final String description;
 
-    Menu(int command, String description) {
-        this.command = command;
+    Menu(String description) {
         this.description = description;
     }
 
@@ -26,7 +25,7 @@ public enum Menu {
         System.out.println();
         System.out.println("---------------------------------------------");
         for (Menu menu : Menu.values()) {
-            System.out.println(menu.getCommand() + ". " + menu.getDescription());
+            System.out.println((menu.ordinal() + 1) + ". " + menu.getDescription());
         }
         System.out.println("---------------------------------------------");
         System.out.print("원하는 기능의 번호를 입력해주세요: ");
@@ -40,12 +39,8 @@ public enum Menu {
      */
     public static Optional<Menu> getMenu(int command) {
         return Arrays.stream(Menu.values())
-                .filter(cur -> cur.command == command)
+                .filter(cur -> cur.ordinal() + 1 == command)
                 .findFirst();
-    }
-
-    public int getCommand() {
-        return command;
     }
 
     public String getDescription() {

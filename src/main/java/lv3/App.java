@@ -1,8 +1,10 @@
 package lv3;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class App {
 
@@ -37,6 +39,9 @@ public class App {
                     case VIEW:
                         showPrevResults(calculator.getResults());
                         break;
+                    case VIEW_WITH_VALUE:
+                        showPrevResultsWithValues(sc, calculator);
+                        break;
                     case REMOVE_FIRST:
                         handleRemove(calculator);
                         break;
@@ -47,6 +52,24 @@ public class App {
                 }
             }
         }
+    }
+
+    private static void showPrevResultsWithValues(Scanner sc, ArithmeticCalculator calculator) {
+        System.out.println("이전 연산 결과 조회가 시작됩니다.");
+
+        System.out.print("기준이 될 숫자를 입력하세요: ");
+        double value = getNumber(sc);
+        List<Double> prevFilterResults = calculator.getResultsGreaterThan(value);
+
+        if (prevFilterResults.isEmpty()) {
+            System.out.println("저장된 결과가 없습니다.");
+            return;
+        }
+
+        IntStream.range(0, prevFilterResults.size())
+                .forEach(idx -> {
+                    System.out.println("[" + (idx + 1) + "]: " + printFormatNumber(prevFilterResults.get(idx)));
+                });
     }
 
 
@@ -96,8 +119,10 @@ public class App {
         System.out.println("계산이 시작됩니다.\n");
         int inputOrder = 1;
 
-        double first = getNumber(sc, inputOrder++);
-        double second = getNumber(sc, inputOrder++);
+        System.out.print(inputOrder++ + "번째 숫자를 입력하세요: ");
+        double first = getNumber(sc);
+        System.out.print(inputOrder++ + "번째 숫자를 입력하세요: ");
+        double second = getNumber(sc);
         char operator = getOperator(sc);
 
         try {
@@ -114,16 +139,14 @@ public class App {
      * 사용자로부터 정수를 입력받아 반환합니다.
      *
      * @param sc
-     * @param inputOrder
      * @return
      */
-    private static double getNumber(Scanner sc, int inputOrder) {
+    private static double getNumber(Scanner sc) {
         while (true) {
-            System.out.print(inputOrder + "번째 숫자를 입력하세요: ");
             try {
                 return Double.parseDouble(sc.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println("오류: 숫자를 입력해주세요.");
+                System.out.println("오류: 숫자를 입력해주세요. ");
             }
         }
     }

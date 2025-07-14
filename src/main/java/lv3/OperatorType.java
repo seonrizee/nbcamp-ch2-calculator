@@ -15,7 +15,7 @@ public enum OperatorType {
     });
 
 
-    private final char symbol; // 수정: 쉼표를 세미콜론으로 변경
+    private final char symbol;
     private final BiFunction<Double, Double, Double> operation;
 
     OperatorType(char command, BiFunction<Double, Double, Double> operation) {
@@ -30,7 +30,7 @@ public enum OperatorType {
      * @param command
      * @return
      */
-    public static OperatorType getOperatorFromCmd(char command) {
+    public static OperatorType findSymbol(char command) {
         return Arrays.stream(values())
                 .filter(op -> op.symbol == command)
                 .findFirst()
@@ -45,8 +45,8 @@ public enum OperatorType {
      * @param second
      * @return
      */
-    public double operate(double first, double second) {
-        return operation.apply(first, second);
+    public double operate(Number first, Number second) {
+        return operation.apply(first.doubleValue(), second.doubleValue());
     }
 
 }
