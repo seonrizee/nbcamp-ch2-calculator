@@ -78,11 +78,11 @@ java lv3.Main # Main 클래스 실행
 
 ## 5. 주요 설계 및 트러블 슈팅
 
-### [Level 1 트러블 슈팅 및 회고](https://seonrizee.github.io/blog/2025-07-11-ch2-calculator-lev1/)
+### [Level 1 회고](https://seonrizee.github.io/blog/2025-07-11-ch2-calculator-lev1/)
 
 - next(), nextInt() 그리고 nextLine()
 
-### [Level 2 트러블 슈팅 및 회고](https://seonrizee.github.io/blog/2025-07-14-ch2-calculator-lev2/)
+### [Level 2 회고](https://seonrizee.github.io/blog/2025-07-14-ch2-calculator-lev2/)
 
 - 연산 결과를 저장할 Collections 타입
 - private, final, getter, setter 그리고 Collections를 사용할 때의 캡슐화
@@ -90,7 +90,14 @@ java lv3.Main # Main 클래스 실행
 - 사용자 콘솔 메뉴 관리를 위한 Enum 적용
 - Queue의 Poll()과 remove()의 차이 그리고 Optional
 
-### Level 3 트러블 슈팅 및 회고
+### [Level 3 회고](https://seonrizee.github.io/blog/2025-07-15-ch2-calculator-lev3/)
+
+- Enum에 비즈니스 로직을 포함해야 하는가?
+- Generic의 필요성과 다양한 숫자 타입(정수, 실수) 처리 설계
+- Enum 에서 제공하는 ordinal() 사용 여부
+- App 클래스를 static 기반으로 만들지, 인스턴스화를 고민할지
+- Calculator 인터페이스 분리의 필요성과 시점
+- Enum 상수에 대한 접근 방법과 성능
 
 ## 6. 브랜치 전략 및 커밋 컨벤션
 
